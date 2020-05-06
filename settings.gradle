@@ -1,0 +1,2 @@
+rootProject.name='zltd-scanner'
+include ':app', ':zltd_scanner_lib'
