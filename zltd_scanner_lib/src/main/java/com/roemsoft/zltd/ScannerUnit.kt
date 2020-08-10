@@ -18,12 +18,20 @@ class ScannerUnit : LifecycleObserver, ScannerManager.IScannerStatusListener {
     companion object {
         private var scannerManager: ScannerManager? = null
 
+        private var interval = 0L       // 扫描结果发送时间间隔
+
         fun init() {
             //1.创建ScannerManager
-            scannerManager = ScannerManager.getInstance().apply {
-            //    Thread(Runnable { connectDecoderSRV() }).start()
-                connectDecoderSRV()
+            if (scannerManager == null) {
+                scannerManager = ScannerManager.getInstance().apply {
+                    connectDecoderSRV()
+                }
             }
+        }
+
+        fun init(time: Long) {
+            init()
+            interval = time
         }
 
         fun release() {
@@ -82,13 +90,18 @@ class ScannerUnit : LifecycleObserver, ScannerManager.IScannerStatusListener {
         scannerStatus.postValue(arg0)
     }
 
+    var lastTime = 0L
     override fun onScannerResultChanage(arg0: ByteArray?) {
         Log.i("scanner", "result change")
         arg0?.let {
             val result = String(it)
             Log.i("scanner", "result$result")
             if (result != ScannerManager.DECODER_TIMEOUT) {
-                scannerResult.postValue(result)
+                val currentTime = System.currentTimeMillis()
+                if (currentTime - lastTime >= interval) {
+                    scannerResult.postValue(result)
+                    lastTime = currentTime
+                }
             }
         }
     }
