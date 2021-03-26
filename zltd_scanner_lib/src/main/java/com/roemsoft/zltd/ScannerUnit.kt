@@ -20,6 +20,8 @@ class ScannerUnit : LifecycleObserver, ScannerManager.IScannerStatusListener {
 
         private var interval = 0L       // 扫描结果发送时间间隔
 
+        private var cusScanMode: Int = -1   // 更改扫描模式
+
         fun init() {
             //1.创建ScannerManager
             if (scannerManager == null) {
@@ -32,6 +34,11 @@ class ScannerUnit : LifecycleObserver, ScannerManager.IScannerStatusListener {
         fun init(time: Long) {
             init()
             interval = time
+        }
+
+        fun init(scanMode: Int) {
+            init()
+            cusScanMode = scanMode
         }
 
         fun release() {
@@ -68,6 +75,10 @@ class ScannerUnit : LifecycleObserver, ScannerManager.IScannerStatusListener {
             if (scanMode != ScannerManager.SCAN_SINGLE_MODE) {
                 it.scanMode = ScannerManager.SCAN_SINGLE_MODE
             }
+
+            if (cusScanMode >= 0) {
+                it.scanMode = cusScanMode
+            }
         }
     }
 
@@ -82,7 +93,7 @@ class ScannerUnit : LifecycleObserver, ScannerManager.IScannerStatusListener {
             it.scannerEnable(isScannerEnable)
             it.scannerSoundEnable = isSoundEnable
             it.scannerVibratorEnable = isVibrator
-            it.scanMode = scanMode
+            it.scanMode = cusScanMode
         }
     }
 
