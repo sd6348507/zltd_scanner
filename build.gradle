@@ -25,7 +25,6 @@ allprojects {
         //配置仓库地址
         maven {
             url "https://jitpack.io"
-            credentials { username authToken }
         }
     }
 }
