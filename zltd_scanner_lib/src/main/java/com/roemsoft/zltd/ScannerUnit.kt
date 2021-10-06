@@ -10,9 +10,11 @@ class ScannerUnit : LifecycleObserver, ScannerManager.IScannerStatusListener {
     val scannerResult: MutableLiveData<String> = MutableLiveData()
     val scannerStatus: MutableLiveData<Int> = MutableLiveData()
 
+    var isSoundEnable = true
+
     private var scanMode: Int = 0
     private var isScannerEnable = false
-    private var isSoundEnable = false
+    private var _isSoundEnable = false
     private var isVibrator = false
 
     companion object {
@@ -54,9 +56,9 @@ class ScannerUnit : LifecycleObserver, ScannerManager.IScannerStatusListener {
                 it.scannerEnable(true)
             }
 
-            isSoundEnable = it.scannerSoundEnable
-            if (!isSoundEnable) {
-                it.scannerSoundEnable = true
+            _isSoundEnable = it.scannerSoundEnable
+            if (!_isSoundEnable) {
+                it.scannerSoundEnable = isSoundEnable
             }
 
             isVibrator = it.scannerVibratorEnable
@@ -84,7 +86,7 @@ class ScannerUnit : LifecycleObserver, ScannerManager.IScannerStatusListener {
         if (android.os.Build.MODEL != "N5S") {
             scannerManager?.let {
                 it.scannerEnable(isScannerEnable)
-                it.scannerSoundEnable = isSoundEnable
+                it.scannerSoundEnable = _isSoundEnable
                 it.scannerVibratorEnable = isVibrator
                 it.scanMode = scanMode
             }
