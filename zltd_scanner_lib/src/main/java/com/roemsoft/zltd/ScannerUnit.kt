@@ -57,9 +57,9 @@ class ScannerUnit : LifecycleObserver, ScannerManager.IScannerStatusListener {
             }
 
             _isSoundEnable = it.scannerSoundEnable
-            if (!_isSoundEnable) {
+        //    if (!_isSoundEnable) {
                 it.scannerSoundEnable = isSoundEnable
-            }
+       //     }
 
             isVibrator = it.scannerVibratorEnable
             if (!isVibrator) {
