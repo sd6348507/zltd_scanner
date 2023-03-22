@@ -24,6 +24,10 @@ class ScannerUnitBroadcast(private val context: Context) : LifecycleObserver {
             val type = intent.getIntExtra("SCAN_BARCODE_TYPE", -1)
             // 扫码状态参数：SCAN_STATE
             // (该参数有两个值：fail或ok.)
+            if (android.os.Build.DEVICE == "N5" && result1 != null && result1.isNotEmpty()) {
+                scannerResult.postValue(result1)
+                return
+            }
             val scanStatus = intent.getStringExtra("SCAN_STATE")
             if ("ok" == scanStatus) {
                 if (result1 != null && result1.isNotEmpty()) {

@@ -64,7 +64,7 @@ class ScannerUnit : LifecycleObserver, ScannerManager.IScannerStatusListener {
                 it.scannerVibratorEnable = true
             }
 
-            if (android.os.Build.MODEL == "N5S") {
+            if (android.os.Build.DEVICE == "N5S") {
                 it.scanMode = ScannerManager.SCAN_CONTINUOUS_MODE
             } else {
                 if (scanMode != ScannerManager.SCAN_SINGLE_MODE) {
